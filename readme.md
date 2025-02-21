@@ -13,7 +13,7 @@ Video Facade - это кастомный веб-компонент для уни
 Можно подключить скрипт из CDN.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/konfuzz/VideoFacade@master/dist/video-facade.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/konfuzz/VideoFacade@latest/dist/video-facade.min.js"></script>
 ```
 
 ## Использование
