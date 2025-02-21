@@ -61,7 +61,7 @@ class VideoFacade extends HTMLElement {
     this.video = this.shadowRoot.querySelector("video");
     this.playBtn = this.getPlayButton();
     this.poster = this.getAttribute("poster");
-    this.src = this.getAttribute("src");
+    this.src = this.getAttribute("data-src");
     this.type = this.getAttribute("type") || "native";
     this.options = this.getAttribute("options")?.split(" ") || [];
     this.lazy = this.hasAttribute("lazy");

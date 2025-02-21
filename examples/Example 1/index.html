@@ -117,7 +117,7 @@
       <!-- Native Video -->
       <div>
         <p>Native HTML5 Video</p>
-        <video-facade src="https://videos.pexels.com/video-files/7710857/7710857-uhd_2732_1440_25fps.mp4" poster="https://picsum.photos/800/450" type="native"
+        <video-facade data-src="https://videos.pexels.com/video-files/7710857/7710857-uhd_2732_1440_25fps.mp4" poster="https://picsum.photos/800/450" type="native"
           options="muted controls">
         </video-facade>
       </div>
@@ -125,14 +125,14 @@
       <!-- YouTube Video -->
       <div>
         <p>YouTube Video</p>
-        <video-facade src="7XPGU7dmZXg" poster="https://picsum.photos/800/451" type="youtube" options="controls">
+        <video-facade data-src="7XPGU7dmZXg" poster="https://picsum.photos/800/451" type="youtube" options="controls">
         </video-facade>
       </div>
 
       <!-- Vimeo Video -->
       <div>
         <p>Vimeo Video</p>
-        <video-facade src="https://player.vimeo.com/video/1016625668" poster="https://picsum.photos/800/452" type="vimeo"
+        <video-facade data-src="https://player.vimeo.com/video/1016625668" poster="https://picsum.photos/800/452" type="vimeo"
           options="controls">
         </video-facade>
       </div>
@@ -145,14 +145,14 @@
       <!-- Lazy Loading -->
       <div>
         <p>Lazy Loading (HTML Video)</p>
-        <video-facade src="https://videos.pexels.com/video-files/8512972/8512972-uhd_2560_1440_30fps.mp4" poster="https://picsum.photos/800/453" lazy options="muted">
+        <video-facade data-src="https://videos.pexels.com/video-files/8512972/8512972-uhd_2560_1440_30fps.mp4" poster="https://picsum.photos/800/453" lazy options="muted">
         </video-facade>
       </div>
 
       <!-- Auto Pause -->
       <div>
         <p>Lazy loading with autostart and autopause</p>
-        <video-facade src="xFWDDwKQPwg" type="youtube" poster="https://picsum.photos/800/454" lazy autopause
+        <video-facade data-src="xFWDDwKQPwg" type="youtube" poster="https://picsum.photos/800/454" lazy autopause
           options="autoplay">
         </video-facade>
       </div>
@@ -160,7 +160,7 @@
       <!-- Custom Play Button -->
       <div>
         <p>Custom Play Button + pause on click</p>
-        <video-facade src="https://vimeo.com/1017406920" type="vimeo" pauseonclick poster="https://picsum.photos/800/455">
+        <video-facade data-src="https://vimeo.com/1017406920" type="vimeo" pauseonclick poster="https://picsum.photos/800/455">
           <button slot="play-button" class="custom-play-button">
             ▶
           </button>
