@@ -4,8 +4,16 @@ Video Facade - это кастомный веб-компонент для уни
 
 ## Установка
 
+Можно скачать скрипт и подключить локально.
+
 ```html
-<script src="video-facade.js"></script>
+<script src="video-facade.min.js"></script>
+```
+
+Можно подключить скрипт из CDN.
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/konfuzz/VideoFacade@master/dist/video-facade.min.js"></script>
 ```
 
 ## Использование
@@ -47,10 +55,10 @@ Video Facade - это кастомный веб-компонент для уни
 | type | string | "native" | Тип плеера: "native", "youtube" или "vimeo" |
 | poster | string | - | URL превью изображения |
 | options | string | - | Список опций через пробел |
-| lazy | boolean | false | Отложенная загрузка видео |
-| autopause | boolean | false | Автопауза при скролле из вида |
-| threshold | number | 0 | Порог видимости для autopause (0-1) |
-| pauseonclick | boolean | false | Пауза по клику на видео |
+| lazy | boolean | false | Загрузка видео при попадании в зону видимости |
+| autopause | boolean | false | Автопауза при выходе видео из зоны видимости |
+| threshold | number | 0 | Порог видимости для lazy и autopause (0-1) |
+| pauseonclick | boolean | false | Пауза по клику на видео (может быть необходимо при отключенных controls) |
 
 ## Опции воспроизведения
 
@@ -83,19 +91,39 @@ Video Facade - это кастомный веб-компонент для уни
 ```html
 <video-facade src="video.mp4">
   <button slot="play-button" class="custom-button">
-    Воспроизвести
+    ▶️ // Можно разместить SVG или другой элемент
   </button>
 </video-facade>
 ```
 
-## События
+## Управление стилями
 
-Компонент поддерживает стандартные события видео:
-- play
-- pause
-- ended
-- timeupdate
-- loadeddata
+Управление стилями контейнера видео и кастомной кнопки воспроизведения можно производить с помощью CSS свойств, например:
+
+```css
+video-facade {
+  border: 1px solid red;
+  border-radius: 4px;
+}
+
+.custom-button {
+  background: rgba(255, 0, 0, 0.8);
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+```
+
+Видео внутри контейнера не поддаётся дополнительной стилизации.
 
 ## Примеры
 
@@ -131,20 +159,3 @@ Video Facade - это кастомный веб-компонент для уни
 </video-facade>
 ```
 
-## Браузерная поддержка
-
-Компонент работает во всех современных браузерах, поддерживающих Web Components:
-- Chrome 67+
-- Firefox 63+
-- Safari 12.1+
-- Edge 79+
-
-## Известные ограничения
-
-1. YouTube API требует ID видео вместо полного URL
-2. Некоторые функции могут быть ограничены политиками автовоспроизведения браузеров
-3. Для корректной работы lazy loading требуется поддержка IntersectionObserver
-
-## Лицензия
-
-MIT License
