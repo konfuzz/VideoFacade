@@ -75,6 +75,18 @@ class VideoFacade extends HTMLElement {
     if (this.lazy || this.autopause) this.observeVideo();
   }
 
+  play() {
+    if (this.videoLoaded && !this.isPlaying) {
+      this.video.play();
+    }
+  }
+
+  pause() {
+    if (this.videoLoaded && this.isPlaying) {
+      this.video.pause();
+    }
+  }
+
   async videoInit(play) {
     if (this.videoLoaded) return;
 
@@ -97,7 +109,7 @@ class VideoFacade extends HTMLElement {
     this.video.src = this.src;
     this.video.poster = this.poster;
     for (const option of this.options) {
-      this.video[option] = true;
+      this.video.setAttribute(option, "")
     }
     this.video.addEventListener('loadeddata', () => {
       this.videoLoaded = true;
