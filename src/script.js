@@ -5,9 +5,14 @@ class VideoFacade extends HTMLElement {
     shadow.innerHTML = `
       <style>
         :host {
+          position: relative;
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         video, [data-vimeo-url] {
           min-width: 100%;
@@ -109,6 +114,7 @@ class VideoFacade extends HTMLElement {
     this.video.src = this.src;
     this.video.poster = this.poster;
     for (const option of this.options) {
+      this.video[option] = true;
       this.video.setAttribute(option, "")
     }
     this.video.addEventListener('loadeddata', () => {
