@@ -43,6 +43,12 @@ class VideoFacade extends HTMLElement {
           border-radius: 50%;
           backdrop-filter: blur(10px);
         }
+        .hidden {
+          display: none !important;
+        }
+        :host(.bg) {
+          pointer-events: none;
+        }
         .standard-play-button svg {
           width: 60%;
           transform: translate(8%, 5%);
@@ -68,16 +74,31 @@ class VideoFacade extends HTMLElement {
     this.src = this.getAttribute("src");
     this.type = this.getAttribute("type") || "native";
     this.options = this.getAttribute("options")?.split(" ") || [];
-    this.lazy = this.hasAttribute("lazy");
+    this.lazy = this.getAttribute("lazy") || false;
     this.autopause = this.hasAttribute("autopause");
     this.threshold = this.getAttribute("threshold");
     this.pauseOnClick = this.hasAttribute("pauseonclick") || false;
+    this.bgVideo = this.hasAttribute("bg") || false;
+
+    if (this.bgVideo) {
+      this.options.push('muted', 'autoplay');
+      this.playBtn.classList.add('hidden');
+      this.shadowRoot.host.classList.add('bg');
+    }
 
     this.style.backgroundImage = `url("${this.poster}")`;
 
+    if (this.bgVideo && !this.lazy) {      
+      this.videoInit(true);
+    } 
+
+    if (this.lazy === "onload") {
+      window.addEventListener('load', () => this.options.includes('autoplay') ? this.videoInit(true) : this.videoInit());
+    }
+
     this.playBtn.addEventListener('click', async () => this.videoLoaded ? this.video.play() : await this.videoInit(true));
     this.pauseOnClick && this.addEventListener('click', () => this.isPlaying && this.video.pause());
-    if (this.lazy || this.autopause) this.observeVideo();
+    if (this.lazy === "inview" || this.autopause) this.observeVideo();
   }
 
   play() {
@@ -136,7 +157,7 @@ class VideoFacade extends HTMLElement {
       try {
         await this.loadPlayer('youtube');
         const youtube = document.createElement("div");
-        let ytOptions = { rel: 0, controls: 0 };
+        let ytOptions = { rel: 0, controls: 0, showinfo: 0, modestbranding: 0 };
         for (const option of this.options) {
           ytOptions[option] = 1;
         }
@@ -216,13 +237,19 @@ class VideoFacade extends HTMLElement {
   }
 
   observeVideo() {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && this.lazy) {
+    const loadObserver = new IntersectionObserver( entries => {
+      entries.forEach( entry => {
+        if (entry.isIntersecting && this.lazy === "inview") {
           this.videoLoaded ? this.options.includes("autoplay") && this.video.play() : this.videoInit();
-        } else {
+          loadObserver.disconnect();
+        } 
+      })
+    }, { threshold: this.threshold || 0 })
+    loadObserver.observe(this);
+
+    const observer = new IntersectionObserver(async entries => {
+      entries.forEach(entry => {
           if (this.autopause && this.videoLoaded && this.isPlaying) this.video.pause();
-        }
       })
     }, { threshold: this.threshold || 0 })
     observer.observe(this);
