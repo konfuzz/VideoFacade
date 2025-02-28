@@ -249,7 +249,9 @@ class VideoFacade extends HTMLElement {
 
     const observer = new IntersectionObserver(async entries => {
       entries.forEach(entry => {
-          if (this.autopause && this.videoLoaded && this.isPlaying) this.video.pause();
+        if (this.autopause && this.videoLoaded) {
+          this.isPlaying ? this.video.pause() : this.video.play();
+        }
       })
     }, { threshold: this.threshold || 0 })
     observer.observe(this);
