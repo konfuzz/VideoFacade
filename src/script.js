@@ -129,6 +129,7 @@ class VideoFacade extends HTMLElement {
 
     this.videoLoaded = true;
     if (play) this.video.play();
+    this.dispatchEvent(new CustomEvent('videoloaded', { bubbles: true, composed: true }));
   }
 
   nativeInit() {

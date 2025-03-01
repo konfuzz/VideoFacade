@@ -21,8 +21,11 @@
 
     h1 {
       text-align: center;
-      color: #333;
-      margin-bottom: 40px;
+      color: white;
+      padding-top: 140px;
+      position: relative;
+      z-index: 1;
+      transition: color 5s ease;
     }
 
     .demo-section {
@@ -83,33 +86,46 @@
       transform: translate(-50%, -50%) scale(1.1);
     }
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+    .hero-section {
+      height: 500px;
+      position: relative;
     }
-
-    .tab {
-      padding: 10px 20px;
-      background: #eee;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+    .hero-section video-facade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; 
+      object-fit: cover;
     }
-
-    .tab.active {
-      background: #007bff;
-      color: white;
+    .overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backdrop-filter: blur(50px);
+        transition: all 5s ease;
+        background: hsla(223, 97%, 15%, 0.698);
+        top:0;
     }
-
-    .code-section {
-      margin-top: 20px;
+    .overlay.done {
+        backdrop-filter: none;
+        background: rgba(255, 255, 255, 0.334);
+    }
+    .hero-section:has(.done) h1 {
+      color: hsl(223, 97%, 15%);
     }
   </style>
 </head>
 
 <body>
-  <h1>Video Facade Examples</h1>
+  <div class="hero-section">
+    <video-facade lazy="onload"
+      poster="https://cdn.prod.website-files.com/6764f9092e4bfdaf600b66bf%2F67b892174f8592495cc717d6_pexels_videos_2334654%20%28720p%29-poster-00001.jpg"
+      src="https://cdn.prod.website-files.com/6764f9092e4bfdaf600b66bf%2F67b892174f8592495cc717d6_pexels_videos_2334654%20%28720p%29-transcode.mp4"
+      options="muted autoplay loop playsinline" bg class="background-video"></video-facade>
+    <div class="overlay"></div>
+    <h1>Video Facade Examples</h1>
+  </div>
 
   <div class="demo-section">
     <h2>Basic Examples</h2>
@@ -117,22 +133,22 @@
       <!-- Native Video -->
       <div>
         <p>Native HTML5 Video</p>
-        <video-facade data-src="https://videos.pexels.com/video-files/7710857/7710857-uhd_2732_1440_25fps.mp4" poster="https://picsum.photos/800/450" type="native"
-          options="muted controls">
+        <video-facade src="https://videos.pexels.com/video-files/7710857/7710857-uhd_2732_1440_25fps.mp4" poster="https://picsum.photos/800/450" type="native"
+          options="muted controls playsinline">
         </video-facade>
       </div>
 
       <!-- YouTube Video -->
       <div>
         <p>YouTube Video</p>
-        <video-facade data-src="7XPGU7dmZXg" poster="https://picsum.photos/800/451" type="youtube" options="controls">
+        <video-facade src="7XPGU7dmZXg" poster="https://picsum.photos/800/451" type="youtube" options="controls">
         </video-facade>
       </div>
 
       <!-- Vimeo Video -->
       <div>
         <p>Vimeo Video</p>
-        <video-facade data-src="https://player.vimeo.com/video/1016625668" poster="https://picsum.photos/800/452" type="vimeo"
+        <video-facade src="https://player.vimeo.com/video/1016625668" poster="https://picsum.photos/800/452" type="vimeo"
           options="controls">
         </video-facade>
       </div>
@@ -145,14 +161,14 @@
       <!-- Lazy Loading -->
       <div>
         <p>Lazy Loading (HTML Video)</p>
-        <video-facade data-src="https://videos.pexels.com/video-files/8512972/8512972-uhd_2560_1440_30fps.mp4" poster="https://picsum.photos/800/453" lazy options="muted">
+        <video-facade src="https://videos.pexels.com/video-files/8512972/8512972-uhd_2560_1440_30fps.mp4" poster="https://picsum.photos/800/453" lazy="inview" options="muted playsinline">
         </video-facade>
       </div>
 
       <!-- Auto Pause -->
       <div>
         <p>Lazy loading with autostart and autopause</p>
-        <video-facade data-src="xFWDDwKQPwg" type="youtube" poster="https://picsum.photos/800/454" lazy autopause
+        <video-facade src="xFWDDwKQPwg" type="youtube" poster="https://picsum.photos/800/454" lazy="onload" autopause
           options="autoplay">
         </video-facade>
       </div>
@@ -160,7 +176,7 @@
       <!-- Custom Play Button -->
       <div>
         <p>Custom Play Button + pause on click</p>
-        <video-facade data-src="https://vimeo.com/1017406920" type="vimeo" pauseonclick poster="https://picsum.photos/800/455">
+        <video-facade src="https://vimeo.com/1017406920" type="vimeo" pauseonclick poster="https://picsum.photos/800/455">
           <button slot="play-button" class="custom-play-button">
             ▶
           </button>
@@ -169,7 +185,16 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/konfuzz/VideoFacade@1.0.0/dist/video-facade.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/konfuzz/VideoFacade@latest/dist/video-facade.min.js"></script>
+  <!-- <script src="../../../src/script.js"></script> -->
+  <script>
+    const facades = document.querySelectorAll('video-facade');
+    facades.forEach(facade => {
+      facade.addEventListener('videoloaded', () => {
+        facade.parentNode.querySelector('.overlay')?.classList.add('done');
+      })
+    })
+  </script>
 </body>
 
 </html>
